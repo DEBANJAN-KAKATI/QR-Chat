@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#06090e">
+  <meta name="referrer" content="no-referrer">
+  <title>CipherDrop — Private QR Chat</title>
+  <meta name="description" content="Anonymous, end-to-end encrypted, self-destructing QR chat and fast file transfer over Wi-Fi, hotspot or Bluetooth.">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Icon sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></symbol>
+    <symbol id="i-hotspot" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M19.07 4.93a10 10 0 0 1 0 14.14M4.93 19.07a10 10 0 0 1 0-14.14"/></symbol>
+    <symbol id="i-bt" viewBox="0 0 24 24"><polyline points="6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"/></symbol>
+    <symbol id="i-lan" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+    <symbol id="i-clip" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24"><line x1="10" y1="2" x2="14" y2="2"/><line x1="12" y1="14" x2="15" y2="11"/><circle cx="12" cy="14" r="8"/></symbol>
+    <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></symbol>
+    <symbol id="i-vol" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></symbol>
+    <symbol id="i-volx" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.2"/><circle cx="16" cy="8" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="8" cy="16" r="1.2"/><circle cx="16" cy="16" r="1.2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-checks" viewBox="0 0 24 24"><polyline points="17 6 7 16 3 12"/><polyline points="22 6 12 16 10.5 14.5"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></symbol>
+  </svg>
+
+  <header>
+    <a href="/" class="brand-wrapper" id="brandHome">
+      <img src="/assets/logo.svg" alt="" class="brand-logo">
+      <div class="brand-title">CIPHERDROP <span class="brand-tag">E2EE</span></div>
+    </a>
+
+    <div class="header-status">
+      <button class="network-pill" id="networkPill" title="Connection modes & offline guide">
+        <span class="status-dot" id="statusDot"></span>
+        <svg class="ic sm" id="netModeIcon"><use href="#i-wifi"/></svg>
+        <span id="currentIpDisplay">Detecting…</span>
+        <span class="net-online" id="netOnlineTag"></span>
+      </button>
+      <button class="btn-icon" id="btnNetGuide" title="Wi-Fi, Hotspot & Bluetooth guide">
+        <svg class="ic"><use href="#i-bt"/></svg>
+      </button>
+      <button class="btn-icon" id="btnAudioToggle" title="Toggle sounds">
+        <svg class="ic" id="audioIcon"><use href="#i-vol"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- VIEW 1: CREATE -->
+    <section id="view-create" class="view-section">
+      <div class="hero">
+        <h1 class="hero-title">Private chat that <span class="grad">disappears</span>.</h1>
+        <p class="hero-sub">Make a QR room for one person. Only they can unlock it. Chat and send files over Wi-Fi, hotspot or Bluetooth, no internet needed. When the chat ends, everything is erased.</p>
+        <div class="chip-row">
+          <span class="chip"><svg class="ic sm"><use href="#i-lock"/></svg>End-to-end encrypted</span>
+          <span class="chip"><svg class="ic sm"><use href="#i-flame"/></svg>Self-destructs</span>
+          <span class="chip"><svg class="ic sm"><use href="#i-hotspot"/></svg>Works offline</span>
+          <span class="chip"><svg class="ic sm"><use href="#i-zap"/></svg>Fast file drop</span>
+        </div>
+      </div>
+
+      <div class="create-grid">
+        <div class="glass-panel">
+          <form id="createRoomForm" autocomplete="off">
+            <div class="form-group">
+              <label class="form-label" for="inputCreatorAlias"><span>Your nickname</span><span class="badge">YOU</span></label>
+              <div class="input-with-btn">
+                <input type="text" id="inputCreatorAlias" class="input-box" placeholder="e.g. Ghost" maxlength="24">
+                <button type="button" class="btn-icon inset" id="btnRandomAlias" title="Random anonymous nickname"><svg class="ic"><use href="#i-dice"/></svg></button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="inputTargetRecipient"><span>Who is this room for?</span><span class="badge danger">ONLY THEM</span></label>
+              <input type="text" id="inputTargetRecipient" class="input-box" placeholder="Their name, e.g. X" required maxlength="24">
+              <p class="hint">They must type this exact name to get in. It is never shown to anyone who opens the link.</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="inputSecretPin"><span>Secret PIN <em>(recommended)</em></span><span class="badge">EXTRA KEY</span></label>
+              <div class="input-with-btn">
+                <input type="password" id="inputSecretPin" class="input-box" placeholder="Optional. Tell them in person." maxlength="24" inputmode="text">
+                <button type="button" class="btn-icon inset" id="btnTogglePin" title="Show / hide PIN"><svg class="ic"><use href="#i-eye"/></svg></button>
+              </div>
+              <p class="hint">The PIN also goes into the encryption key, so even someone who has the link can't read anything without it.</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="selectNetworkIp"><span>Connect over</span><span class="badge" id="netKindBadge">WI-FI</span></label>
+              <select id="selectNetworkIp" class="input-box"><option value="">Detecting network adapters…</option></select>
+              <p class="hint" id="netKindHint">Both devices must be on the same network.</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label"><span>Room self-destructs after</span><span class="badge">MAX LIFETIME</span></label>
+              <div class="segmented" id="ttlSegment">
+                <button type="button" data-ttl="5">5m</button>
+                <button type="button" data-ttl="15">15m</button>
+                <button type="button" data-ttl="30" class="active">30m</button>
+                <button type="button" data-ttl="60">1h</button>
+                <button type="button" data-ttl="120">2h</button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" id="btnSpawnChamber">
+              <svg class="ic"><use href="#i-qr"/></svg> Generate private QR room
+            </button>
+          </form>
+        </div>
+
+        <aside class="how-panel">
+          <h3>How it works</h3>
+          <ol class="steps">
+            <li><b>Create</b> a room for one person (X). You get a QR code and a link.</li>
+            <li><b>Share</b> it: X scans the QR, or you send the link on WhatsApp. X has to be on the same Wi-Fi, hotspot or Bluetooth network.</li>
+            <li><b>Unlock</b>: X types their name (and the PIN). Anyone else (Y, Z) gets blocked, and 3 wrong tries destroy the room.</li>
+            <li><b>Chat &amp; send files</b> straight between your devices. Everything is end-to-end encrypted.</li>
+            <li><b>Burn</b>: when either of you leaves or presses End, the room and everything in it is erased.</li>
+          </ol>
+          <button class="btn btn-secondary btn-block" id="btnOpenGuide2"><svg class="ic"><use href="#i-bt"/></svg> No internet? Use hotspot or Bluetooth</button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- VIEW 2: SHARE -->
+    <section id="view-share" class="view-section">
+      <div class="share-grid">
+        <div class="glass-panel qr-card">
+          <div class="target-badge"><svg class="ic sm"><use href="#i-lock"/></svg> Locked to <strong id="shareTargetName">X</strong></div>
+          <div class="qr-frame" id="qrFrame">
+            <img id="qrImageDisplay" src="" alt="Room QR code">
+            <div class="qr-scanline"></div>
+          </div>
+          <div class="qr-meta">
+            <span class="chip" id="shareNetChip"><svg class="ic sm"><use href="#i-wifi"/></svg><span>Wi-Fi</span></span>
+            <span class="chip warn" id="shareTimerChip"><svg class="ic sm"><use href="#i-timer"/></svg><span id="shareTimer">30:00</span></span>
+          </div>
+          <div class="url-copy-bar">
+            <input type="text" id="shareUrlInput" readonly>
+            <button class="btn-icon" id="btnCopyUrl" title="Copy link"><svg class="ic"><use href="#i-copy"/></svg></button>
+          </div>
+          <div class="share-links-row">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" id="btnShareWhatsapp">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              WhatsApp
+            </a>
+            <button class="btn btn-secondary" id="btnNativeShare" style="display:none"><svg class="ic"><use href="#i-share"/></svg> Share</button>
+            <button class="btn btn-secondary" id="btnDownloadQr"><svg class="ic"><use href="#i-download"/></svg> Save QR</button>
+          </div>
+        </div>
+
+        <div class="glass-panel wait-card">
+          <div class="radar"><span></span><span></span><span></span><svg class="ic lg"><use href="#i-hotspot"/></svg></div>
+          <h2 class="wait-title">Waiting for <span id="waitTargetName">X</span>…</h2>
+          <p class="section-subtitle" id="waitSub">The chat opens on its own as soon as they unlock the room.</p>
+
+          <ul class="checklist">
+            <li id="ckSameNet"><svg class="ic sm"><use href="#i-wifi"/></svg><span>They need to join the same network as <b id="ckIp">this device</b>.</span></li>
+            <li id="ckPin" style="display:none"><svg class="ic sm"><use href="#i-lock"/></svg><span>Give them the PIN <b>in person or by voice</b>, not in the same message as the link.</span></li>
+            <li><svg class="ic sm"><use href="#i-flame"/></svg><span>Leaving this page for more than 45 s destroys the room.</span></li>
+          </ul>
+
+          <div id="intrusionLog" class="intrusion-log"></div>
+
+          <div class="share-links-row">
+            <button class="btn btn-primary" id="btnEnterAsHost">Open chat now <svg class="ic"><use href="#i-arrow"/></svg></button>
+            <button class="btn btn-ghost-danger" id="btnCancelRoom"><svg class="ic"><use href="#i-flame"/></svg> Cancel &amp; destroy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: UNLOCK -->
+    <section id="view-unlock" class="view-section">
+      <div class="glass-panel narrow">
+        <div class="section-header">
+          <div class="lock-orb"><svg class="ic xl"><use href="#i-lock"/></svg></div>
+          <h2 class="section-title">You've been sent a private room</h2>
+          <p class="section-subtitle" id="unlockHeaderSubtitle">This room is locked to one specific person. Prove it's you.</p>
+        </div>
+
+        <div id="unlockAlertBox" class="alert-box" style="display:none"></div>
+
+        <form id="unlockForm" autocomplete="off">
+          <div class="form-group">
+            <label class="form-label" for="inputUnlockName"><span>Your name</span><span class="badge">VERIFY</span></label>
+            <input type="text" id="inputUnlockName" class="input-box" placeholder="The name the sender used for you" required maxlength="24">
+          </div>
+          <div class="form-group" id="unlockPinGroup" style="display:none">
+            <label class="form-label" for="inputUnlockPin"><span>PIN</span><span class="badge danger">REQUIRED</span></label>
+            <input type="password" id="inputUnlockPin" class="input-box" placeholder="The sender gave you this separately" maxlength="24">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="btnUnlockSubmit"><svg class="ic"><use href="#i-lock"/></svg> Unlock room</button>
+        </form>
+        <p class="hint center">Wrong names count as intruder attempts. After 3 the room destroys itself.</p>
+      </div>
+    </section>
+
+    <!-- VIEW 4: CHAT -->
+    <section id="view-chamber" class="view-section">
+      <div class="glass-panel chamber-container" id="chamberDropZone">
+        <div class="drop-overlay" id="dropOverlay"><svg class="ic xl"><use href="#i-download"/></svg><div>Drop to send encrypted</div></div>
+        <div class="privacy-shield" id="privacyShield"><svg class="ic xl"><use href="#i-eye"/></svg><div>Hidden while you were away. Tap to show.</div></div>
+
+        <div class="chamber-topbar">
+          <div class="chamber-peer-info">
+            <div class="peer-avatar" id="peerAvatarIcon">?</div>
+            <div class="peer-details">
+              <div class="peer-name"><span id="remotePeerName">Waiting for peer…</span><span class="status-dot offline" id="chamberPeerDot"></span></div>
+              <div class="peer-sub" id="chamberSubStatus">Connecting…</div>
+            </div>
+          </div>
+
+          <div class="topbar-actions">
+            <span class="chip warn" id="roomTimerChip" title="Room self-destructs when this hits zero"><svg class="ic sm"><use href="#i-timer"/></svg><span id="roomTimer">--:--</span></span>
+            <button class="e2ee-badge" id="btnShowFingerprint" title="Compare safety code with your peer"><svg class="ic sm"><use href="#i-shield"/></svg><span id="badgeEmojiFingerprint">E2EE</span></button>
+            <button class="btn-icon" id="btnShowQrAgain" title="Show room QR" style="display:none"><svg class="ic"><use href="#i-qr"/></svg></button>
+            <button class="btn btn-danger btn-sm" id="btnPanicVaporize" title="End the chat and erase everything"><svg class="ic"><use href="#i-flame"/></svg><span class="hide-sm">End &amp; erase</span></button>
+          </div>
+        </div>
+
+        <div class="banner" id="connBanner" style="display:none"></div>
+
+        <div class="transfers" id="transfersPanel" style="display:none">
+          <div class="transfers-head">
+            <span><svg class="ic sm"><use href="#i-zap"/></svg> Transfers</span>
+            <button class="link-btn" id="btnClearTransfers">Clear finished</button>
+          </div>
+          <div id="transferList"></div>
+        </div>
+
+        <div class="chat-feed" id="chatFeed">
+          <div class="system-bubble">🛡️ End-to-end encrypted, RAM-only room. Nothing is saved, and messages are lost on refresh.</div>
+        </div>
+
+        <div class="typing-bar" id="typingIndicator"></div>
+
+        <div class="composer">
+          <div class="popover" id="attachMenu">
+            <button data-pick="files"><svg class="ic"><use href="#i-file"/></svg> Files</button>
+            <button data-pick="media"><svg class="ic"><use href="#i-image"/></svg> Photos &amp; videos</button>
+            <button data-pick="folder"><svg class="ic"><use href="#i-folder"/></svg> Whole folder</button>
+          </div>
+          <div class="popover emoji-pop" id="emojiMenu"></div>
+          <div class="popover" id="ttlMenu">
+            <div class="pop-title">Disappearing messages</div>
+            <button data-msgttl="0">Off</button>
+            <button data-msgttl="10">10 seconds</button>
+            <button data-msgttl="60">1 minute</button>
+            <button data-msgttl="300">5 minutes</button>
+          </div>
+
+          <input type="file" id="filePickerInput" hidden multiple>
+          <input type="file" id="mediaPickerInput" hidden multiple accept="image/*,video/*">
+          <input type="file" id="folderPickerInput" hidden webkitdirectory multiple>
+
+          <button class="btn-icon" id="btnAttachFile" title="Send files (encrypted, fast)"><svg class="ic"><use href="#i-clip"/></svg></button>
+          <button class="btn-icon" id="btnEmoji" title="Emoji"><svg class="ic"><use href="#i-smile"/></svg></button>
+          <textarea id="chatTextInput" rows="1" placeholder="Type an encrypted message…" maxlength="4000"></textarea>
+          <button class="btn-icon" id="btnMsgTtl" title="Disappearing messages"><svg class="ic"><use href="#i-timer"/></svg><span class="ttl-dot" id="ttlDot"></span></button>
+          <button class="btn-icon" id="btnNudge" title="Nudge (vibrates their phone)"><svg class="ic"><use href="#i-bell"/></svg></button>
+          <button class="btn-send" id="btnSendMessage" title="Send"><svg class="ic"><use href="#i-send"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 5: BURNED -->
+    <section id="view-burned" class="view-section">
+      <div class="glass-panel narrow burned">
+        <div class="burn-icon"><svg class="ic xl"><use href="#i-flame"/></svg></div>
+        <h2 class="section-title">Room erased</h2>
+        <p class="section-subtitle" id="burnReason">All keys, messages and files have been wiped.</p>
+        <ul class="checklist done">
+          <li><svg class="ic sm"><use href="#i-check"/></svg><span>Encryption keys zeroized</span></li>
+          <li><svg class="ic sm"><use href="#i-check"/></svg><span>Messages &amp; file buffers cleared from memory</span></li>
+          <li><svg class="ic sm"><use href="#i-check"/></svg><span>Room deleted from the relay. The link and QR no longer work.</span></li>
+        </ul>
+        <button class="btn btn-primary" id="btnNewRoom">Create a new private room</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL: fingerprint -->
+  <div class="modal-backdrop" id="fingerprintModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3><svg class="ic" style="color:var(--accent-emerald)"><use href="#i-shield"/></svg> Safety code</h3>
+        <button class="btn-icon sm" data-close><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <p class="modal-text">Ask your peer to open this too. If you both see the same emojis and code, nobody in the middle can read your chat.</p>
+      <div class="fp-box">
+        <div id="modalEmojiBlock" class="fp-emoji">🛡️ ⚡ 🔐 💎</div>
+        <div id="modalHexCode" class="fp-hex">0000-0000-0000-0000</div>
+      </div>
+      <button class="btn btn-secondary btn-block" data-close>They match</button>
+    </div>
+  </div>
+
+  <!-- MODAL: connection guide -->
+  <div class="modal-backdrop" id="netGuideModal">
+    <div class="modal-box wide">
+      <div class="modal-head">
+        <h3><svg class="ic" style="color:var(--primary-cyan)"><use href="#i-hotspot"/></svg> Connect without internet</h3>
+        <button class="btn-icon sm" data-close><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <p class="modal-text">CipherDrop never needs the internet. The two devices only need a local link to each other. Pick whichever you have:</p>
+
+      <div class="mode-cards">
+        <div class="mode-card">
+          <div class="mode-head"><svg class="ic"><use href="#i-wifi"/></svg> Same Wi-Fi <span class="tag">fastest</span></div>
+          <p>Both devices on the same router. Files move at full Wi-Fi speed (often 10–60 MB/s).</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-head"><svg class="ic"><use href="#i-hotspot"/></svg> Hotspot <span class="tag">no router, no data</span></div>
+          <p>Turn on <b>Mobile Hotspot</b> on this PC (Settings → Network → Mobile hotspot) or on a phone, and connect the other device to it. Mobile data isn't used. Then pick the <b>Hotspot</b> adapter when you create the room.</p>
+        </div>
+        <div class="mode-card">
+          <div class="mode-head"><svg class="ic"><use href="#i-bt"/></svg> Bluetooth <span class="tag">no Wi-Fi at all</span></div>
+          <p>Pair the phone with this PC, then turn on <b>Bluetooth tethering</b> on the phone (Hotspot &amp; tethering → Bluetooth tethering). On Windows, open <b>Bluetooth devices → (phone) → Join a Personal Area Network → Connect using → Access point</b>. A <b>Bluetooth PAN</b> adapter shows up below. Choose it and scan the QR. It's slower (about 0.1–0.3 MB/s), so it suits chat and small files.</p>
+        </div>
+      </div>
+
+      <div class="iface-title">Adapters on this device right now</div>
+      <div id="ifaceList" class="iface-list"><div class="hint">Scanning…</div></div>
+
+      <p class="hint">Why not direct browser Bluetooth? Browsers can only connect <i>to</i> Bluetooth gadgets; they can't advertise to each other the way the native BitChat app does. Bluetooth tethering gives both devices a real network link instead, and that works in any browser.</p>
+      <button class="btn btn-secondary btn-block" id="btnRefreshIfaces">Re-scan adapters</button>
+    </div>
+  </div>
+
+  <!-- MODAL: confirm burn -->
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 style="color:var(--accent-crimson)"><svg class="ic"><use href="#i-flame"/></svg> <span id="confirmTitle">End chat &amp; erase everything?</span></h3>
+      </div>
+      <p class="modal-text" id="confirmText">The room, every message and every file is destroyed for both of you, right now. This can't be undone.</p>
+      <div class="share-links-row">
+        <button class="btn btn-secondary" data-close>Keep chatting</button>
+        <button class="btn btn-danger" id="btnConfirmBurn"><svg class="ic"><use href="#i-flame"/></svg> Erase now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: QR again (host, inside chat) -->
+  <div class="modal-backdrop" id="qrAgainModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3><svg class="ic"><use href="#i-qr"/></svg> Room QR</h3>
+        <button class="btn-icon sm" data-close><svg class="ic"><use href="#i-x"/></svg></button>
+      </div>
+      <div class="qr-frame small"><img id="qrAgainImg" src="" alt="Room QR code"></div>
+    </div>
+  </div>
+
+  <!-- Image viewer -->
+  <div class="modal-backdrop viewer" id="imageViewer"><img id="viewerImg" alt=""></div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="/js/sound.js"></script>
+  <script src="/js/crypto.js"></script>
+  <script src="/js/transfer.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
